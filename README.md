@@ -1,4 +1,4 @@
-# Arylic-Amp-MQTT
+## Adding MQTT (and more) to the Arylic Up2Stream DIY Amplifier
 An ESP32-based project that adds MQTT control and more to the Arylic DIY Amp
 
 ![Finished_Build_Small](https://user-images.githubusercontent.com/55962781/216686591-e848d1ba-e7c6-480c-b4ff-9059607b4078.jpg)
