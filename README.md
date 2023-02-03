@@ -13,3 +13,4 @@ The ESP32 and this project's code adds:
 - Click option to the default rotary encoder that is provided by the amp's encoder interface
 - Optional IR receiver that replaces the onboard receiver and allows the use of any IR remote to control the amp.
 
+![HA_Dashboard_01](https://user-images.githubusercontent.com/55962781/216692697-9169711e-2550-4d4c-950d-c2796c9e8901.jpg)
