@@ -1,0 +1,585 @@
+# =============================================
+#  This package contains all desk amp
+#  related entities, scrips and automations
+#  except for these natively integrated entities:
+#    media_player.basement_desk (attributes create as sensors here)
+# =============================================
+
+
+# ************************************
+#     SENSORS (non-MQTT)
+# ************************************
+sensor:
+  - platform: template
+    sensors:
+      desk_amp_title:
+        friendly_name: Title
+        value_template: "{{ (state_attr('media_player.basement_desk', 'media_title')) }}"
+      
+      desk_amp_artist:
+        friendly_name: Artist
+        value_template: "{{ (state_attr('media_player.basement_desk', 'media_artist')) }}"
+
+      desk_amp_album:
+        friendly_name: Album
+        value_template: "{{ (state_attr('media_player.basement_desk', 'media_album_name')) }}"
+
+# ************************************
+#     SWITCHES (non-MQTT)
+# ************************************
+
+
+# ************************************
+#     MQTT ENTITIES
+# ************************************
+mqtt:
+  # ==================
+  #  BINARY SENSORS
+  # ==================
+  binary_sensor:
+    # Internet
+    - name: "Desk Amp Internet"
+      state_topic: "stat/deskamp/internet"
+      payload_on: "1"
+      payload_off: "0"
+      
+    # Ethernet
+    - name: "Desk Amp Ethernet"
+      state_topic: "stat/deskamp/ethernet"
+      payload_on: "1"
+      payload_off: "0"
+      
+    # Wifi
+    - name: "Desk Amp WiFi"
+      state_topic: "stat/deskamp/wifi"
+      payload_on: "1"
+      payload_off: "0"
+    
+    # Bluetooth
+    - name: "Desk Amp Bluetooth"
+      state_topic: "stat/deskamp/btconnect"
+      payload_on: "1"
+      payload_off: "0"
+      
+    # Audio Output
+    - name: "Desk Amp Audio"
+      state_topic: "stat/deskamp/audio"
+      payload_on: "1"
+      payload_off: "0"
+   
+    # Playing
+    - name: "Desk Amp Playing"
+      state_topic: "stat/deskamp/playing"
+      payload_on: "1"
+      payload_off: "0"
+      
+    # Fixed Volume
+    - name: "Desk Amp Fixed Volume"
+      state_topic: "stat/deskamp/fixedvol"
+      payload_on: "1"
+      payload_off: "0"
+      
+  # ==================
+  #  SENSORS
+  # ==================
+  sensor:
+    #  Active Source
+    - name: "Desk Amp Source"
+      state_topic: "stat/deskamp/source"
+
+    #  Vol
+    - name: "Desk Amp Volume"
+      state_topic: "stat/deskamp/volume"
+
+    # Device Name
+    - name: "Desk Amp Device Name"
+      state_topic: "stat/deskamp/devicename"
+      
+    # Firmware Version
+    - name: "Desk Amp Firmware"
+      state_topic: "stat/deskamp/version"
+      
+    # Power On Source
+    - name: "Desk Amp Power On Source"
+      state_topic: "stat/deskamp/poweronsource"
+      
+    # Channel
+    - name: "Desk Amp Channel"
+      state_topic: "stat/deskamp/channel"
+      
+    # Multiroom Mode
+    - name: "Desk Amp Multiroom Mode"
+      state_topic: "stat/deskamp/multiroom"
+      
+    # Last UART Command
+    - name: "Desk Amp Last UART"
+      state_topic: "stat/deskamp/uart"
+      
+    # Last IR Code
+    - name: "Desk Amp Last IR Code"
+      state_topic: "stat/deskamp/ircode"
+      
+  # ==================
+  #  SWITCHES
+  # ==================
+  # Source switches for BT, NET, USBDAC, USB, LINE-IN, OPT, STANDBY* (standby handled with SYS)
+  switch:
+    # Bluetooth
+    - name: "Desk Amp Source Bluetooth"
+      state_topic: "stat/deskamp/source"
+      value_template: "{{ value == 'BT' }}"
+      command_topic: "cmnd/deskamp/source"
+      payload_on: "BT"
+      payload_off: ""
+      state_on: true
+      state_off: false
+      retain: false
+    # Network
+    - name: "Desk Amp Source Network"
+      state_topic: "stat/deskamp/source"
+      value_template: "{{ value == 'NET' }}"
+      command_topic: "cmnd/deskamp/source"
+      payload_on: "NET"
+      payload_off: ""
+      state_on: true
+      state_off: false
+      retain: false
+    # USBDAC
+    - name: "Desk Amp Source USBDAC"
+      state_topic: "stat/deskamp/source"
+      value_template: "{{ value == 'USBDAC' }}"
+      command_topic: "cmnd/deskamp/source"
+      payload_on: "USBDAC"
+      payload_off: ""
+      state_on: true
+      state_off: false
+      retain: false
+    # USB
+    - name: "Desk Amp Source USB"
+      state_topic: "stat/deskamp/source"
+      value_template: "{{ value == 'USB' }}"
+      command_topic: "cmnd/deskamp/source"
+      payload_on: "USB"
+      payload_off: ""
+      state_on: true
+      state_off: false
+      retain: false
+    # Line In
+    - name: "Desk Amp Source Line In"
+      state_topic: "stat/deskamp/source"
+      value_template: "{{ value == 'LINE-IN' }}"
+      command_topic: "cmnd/deskamp/source"
+      payload_on: "LINE-IN"
+      payload_off: ""
+      state_on: true
+      state_off: false
+      retain: false
+    # Optical
+    - name: "Desk Amp Source Optical"
+      state_topic: "stat/deskamp/source"
+      value_template: "{{ value == 'OPT' }}"
+      command_topic: "cmnd/deskamp/source"
+      payload_on: "OPT"
+      payload_off: ""
+      state_on: true
+      state_off: false
+      retain: false
+    # Standby
+    - name: "Desk Amp Source Standby"
+      state_topic: "stat/deskamp/source"
+      value_template: "{{ value == 'STANDBY' }}"
+      command_topic: "cmnd/deskamp/system"
+      payload_on: "STANDBY"
+      payload_off: "REBOOT"
+      state_on: true
+      state_off: false
+      retain: false
+
+    # Pregain
+    - name: "Desk Amp Pregain"
+      state_topic: "stat/deskamp/pregain"
+      value_template: "{{value == '1' }}"
+      command_topic: "cmnd/deskamp/pregain"
+      payload_on: "1"
+      payload_off: "0"
+      state_on: true
+      state_off: false
+      retain: false
+    
+    # Virtual Bass
+    - name: "Desk Amp Virtual Bass"
+      state_topic: "stat/deskamp/virtbass"
+      value_template: "{{ value == '1' }}"
+      command_topic: "cmnd/deskamp/virtbass"
+      payload_on: "1"
+      payload_off: "0"
+      state_on: true
+      state_off: false
+      retain: false
+      
+    # Mute
+    - name: "Desk Amp Mute"
+      state_topic: "stat/deskamp/mute"
+      value_template: "{{ value == '1' }}"
+      command_topic: "cmnd/deskamp/mute"
+      payload_on: "1"
+      payload_off: "0"
+      state_on: true
+      state_off: false
+      retain: false
+      
+    # LED
+    - name: "Desk Amp LED"
+      state_topic: "stat/deskamp/led"
+      value_template: "{{ value == '1' }}"
+      command_topic: "cmnd/deskamp/led"
+      payload_on: "1"
+      payload_off: "0"
+      state_on: true
+      state_off: false
+      retain: false
+
+    # IR Receiver
+    - name: "Desk Amp IR Receiver"
+      state_topic: "stat/deskamp/irmode"
+      value_template: "{{ value == '1' }}"
+      command_topic: "cmnd/deskamp/irmode"
+      payload_on: "1"
+      payload_off: "0"
+      state_on: true
+      state_off: false
+      retain: false
+     
+    # Key Beep
+    - name: "Desk Amp Key Beep"
+      state_topic: "stat/deskamp/beep"
+      value_template: "{{ value == '1' }}"
+      command_topic: "cmnd/deskamp/beep"
+      payload_on: "1"
+      payload_off: "0"
+      state_on: true
+      state_off: false
+      retain: false
+      
+    # Voice Prompts
+    - name: "Desk Amp Voice Prompts"
+      state_topic: "stat/deskamp/voice"
+      value_template: "{{ value == '1' }}"
+      command_topic: "cmnd/deskamp/voice"
+      payload_on: "1"
+      payload_off: "0"
+      state_on: true
+      state_off: false
+      retain: false
+
+# ************************************
+#     HELPER ENTITIES
+# ************************************
+
+# ======================
+#  INPUT BOOLEANS
+# ======================
+
+
+# ======================
+#  INPUT NUMBERS
+# ======================
+input_number:
+# --------------------------
+# Master Volume:
+# --------------------------
+  desk_amp_volume:
+    name: Volume
+    #initial: 30
+    min: 0
+    max: 100
+    step: 1
+    mode: slider
+# --------------------------
+# Balance:
+# --------------------------
+  desk_amp_balance:
+    name: Balance
+    #initial: 0
+    min: -100
+    max: 100
+    step: 1
+    mode: slider
+# --------------------------
+# Treble:
+# --------------------------
+  desk_amp_treble:
+    name: Treble
+    #initial: 0
+    min: -10
+    max: 10
+    step: 1
+    mode: slider
+# --------------------------
+# Midrange:
+# --------------------------
+  desk_amp_midrange:
+    name: Midrange
+    #initial: 0
+    min: -10
+    max: 10
+    step: 1
+    mode: slider
+# --------------------------
+# Bass:
+# --------------------------
+  desk_amp_bass:
+    name: Bass
+    #initial: 0
+    min: -10
+    max: 10
+    step: 1
+    mode: slider
+
+# -----------------------
+#  Max Volume
+# ------------------------
+  desk_amp_max_volume:
+    name: Max Volume
+    #initial: 95
+    min: 30
+    max: 100
+    mode: slider
+
+# ======================
+#  INPUT SELECTS
+# ======================
+input_select:
+  desk_amp_loopmode:
+    name: "Loop Mode"
+    options:
+      - REPEATALL
+      - REPEATONE
+      - REPEATSHUFFLE
+      - SHUFFLE
+      - SEQUENCE
+    #initial: SEQUENCE
+
+# =====================
+#  INPUT TEXT
+# =====================
+input_text:
+  desk_amp_uart_command:
+    name: UART Command
+    
+
+# ////////////////////////////////////////////////////////////////////////
+#    AUTOMATIONS
+# ////////////////////////////////////////////////////////////////////////
+automation:
+  # ==================================
+  #  MQTT Set/Gets
+  #   Set: Publishes value to amp when local control changes
+  #   Get: Updates local control when MQTT changes
+  # ==================================
+  # Volume
+  - alias: Desk Amp Volume Set
+    id: fe580fa1-915b-4bd9-845e-dcb337e8151a
+    trigger:
+      platform: state
+      entity_id: input_number.desk_amp_volume
+    action:
+      service: mqtt.publish
+      data:
+        topic: "cmnd/deskamp/volume"
+        payload: "{{ states('input_number.desk_amp_volume') | int }}"
+  - alias: Desk Amp Volume Get
+    id: c0363a4e-0636-4289-b8d5-3116d9204d5c
+    trigger:
+      platform: mqtt
+      topic: "stat/deskamp/volume"
+    action:
+      service: input_number.set_value
+      data:
+        entity_id: input_number.desk_amp_volume
+        value: "{{ trigger.payload }}"
+
+  # Balance        
+  - alias: Desk Amp Balance Set
+    id: bc45575c-6b39-4775-8c72-b7aca577f430
+    trigger:
+      platform: state
+      entity_id: input_number.desk_amp_balance
+    action:
+      service: mqtt.publish
+      data:
+        topic: "cmnd/deskamp/balance"
+        payload: "{{ states('input_number.desk_amp_balance') | int }}"
+  - alias: Desk Amp Balance Get
+    id: 63382d2f-2eee-420a-a17e-ac35f0498a1c
+    trigger:
+      platform: mqtt
+      topic: "stat/deskamp/balance"
+    action:
+      service: input_number.set_value
+      data:
+        entity_id: input_number.desk_amp_balance
+        value: "{{ trigger.payload }}"
+ 
+  # Treble
+  - alias: Desk Amp Treble Set
+    id: 8d59d377-923d-4098-b49e-f3a1fa0faca5
+    trigger:
+      platform: state
+      entity_id: input_number.desk_amp_treble
+    action:
+      service: mqtt.publish
+      data:
+        topic: "cmnd/deskamp/treble"
+        payload: "{{ states('input_number.desk_amp_treble') | int }}"
+  - alias: Desk Amp Treble Get
+    id: d8c8fa7b-7b8e-4317-9503-216df1ec8513
+    trigger:
+      platform: mqtt
+      topic: "stat/deskamp/treble"
+    action:
+      service: input_number.set_value
+      data:
+        entity_id: input_number.desk_amp_treble
+        value: "{{ trigger.payload }}"
+ 
+  # Midrange
+  - alias: Desk Amp Midrange Set
+    id: 340c932d-5aea-4acc-bf1e-5b8ba899b2c4
+    trigger:
+      platform: state
+      entity_id: input_number.desk_amp_midrange
+    action:
+      service: mqtt.publish
+      data:
+        topic: "cmnd/deskamp/midrange"
+        payload: "{{ states('input_number.desk_amp_midrange') | int }}"
+  - alias: Desk Amb Midrange Get
+    id: 60388e3e-f7c0-4ce6-8d59-1102d6dbda22
+    trigger:
+      platform: mqtt
+      topic: "stat/deskamp/midrange"
+    action:
+      service: input_number.set_value
+      data:
+        entity_id: input_number.desk_amp_midrange
+        value: "{{ trigger.payload }}"
+ 
+  # Bass
+  - alias: Desk Amp Bass Set
+    id: 80d30263-bdac-4a91-8c3b-7bdd74590ce5
+    trigger:
+      platform: state
+      entity_id: input_number.desk_amp_bass
+    action:
+      service: mqtt.publish
+      data:
+        topic: "cmnd/deskamp/bass"
+        payload: "{{ states('input_number.desk_amp_bass') }}"
+  - alias: Desk Amp Bass Get
+    id: ba6ae75c-3407-4055-be36-4aabb67b96a6
+    trigger:
+      platform: mqtt
+      topic: "stat/deskamp/bass"
+    action:
+      service: input_number.set_value
+      data:
+        entity_id: input_number.desk_amp_bass
+        value: "{{ trigger.payload }}"
+        
+  # Max Volume
+  - alias: Desk Amp Max Volume Set
+    id: 2c7c4cd2-de0c-4c87-b3a6-71575fdaa6ff
+    trigger:
+      platform: state
+      entity_id: input_number.desk_amp_max_volume
+    action:
+      service: mqtt.publish
+      data:
+        topic: "cmnd/deskamp/maxvol"
+        payload: "{{ states('input_number.desk_amp_max_volume') | int }}"
+  - alias: Desk Amp Max Volume Get
+    id: f82b70ef-79d5-47d2-98d8-1718473a0786
+    trigger:
+      platform: mqtt
+      topic: "stat/deskamp/maxvol"
+    action:
+      service: input_number.set_value
+      data:
+        entity_id: input_number.desk_amp_max_volume
+        value: "{{ trigger.payload }}"
+
+  # Loop Mode
+  - alias: Desk Amp Loop Mode Set
+    id: f0b9ec2e-1b2f-4e2c-a3ed-41f87655163f
+    trigger:
+      platform: state
+      entity_id: input_select.desk_amp_loopmode
+    action:
+      service: mqtt.publish
+      data:
+        topic: "cmnd/deskamp/loopmode"
+        payload: "{{ states('input_select.desk_amp_loopmode') }}"
+  - alias: Desk Amp Loop Mode Get
+    id: 6f17f307-1414-4ce5-a7a8-8fc163e02b09
+    trigger: 
+      platform: mqtt
+      topic: "stat/deskamp/loopmode"
+    action:
+      service: input_select.select_option
+      data: 
+        entity_id: input_select.desk_amp_loopmode
+        option: "{{ trigger.payload }}"
+      
+  # UART Command (set only)
+  - alias: Desk Amp UART Command
+    id: e9d38eb6-a64b-444d-bd8b-7e276927aefd
+    trigger:
+      platform: state
+      entity_id: input_text.desk_amp_uart_command
+    action:
+      - service: mqtt.publish
+        data:
+          topic: "cmnd/deskamp/uart"
+          payload: "{{ states('input_text.desk_amp_uart_command') }}"
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.desk_amp_uart_command
+          value: ""
+
+# ////////////////////////////////////////////////////////////////////////
+#    SCRIPTS
+# ////////////////////////////////////////////////////////////////////////
+# These are needed for stop/pause/prev/next buttons since UART does not return anything
+script:
+  desk_amp_stop_button:
+    alias: Stop Button
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "cmnd/deskamp/stop"
+          retain: false
+  
+  desk_amp_pause_button:
+    alias: PlayPause Button
+    sequence:
+      - service: mqtt.publish
+        data: 
+          topic: "cmnd/deskamp/pause"
+          retain: false
+          
+  desk_amp_next_button:
+    alias: Next Button
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "cmnd/deskamp/next"
+          retain: false
+          
+  desk_amp_previous_button:
+    alias: Previous Button
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "cmnd/deskamp/previous"
+          retain: false

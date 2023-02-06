@@ -1,0 +1,322 @@
+  - theme: ios-dark-mode
+    title: Amp
+    path: amp
+    badges: []
+    cards:
+      - type: vertical-stack
+        cards:
+          - text: Audio Sources
+            type: custom:text-divider-row
+          - square: false
+            columns: 4
+            type: grid
+            cards:
+              - aspect_ratio: 1.2/1
+                color: rgb(252,255,158)
+                color_type: card
+                entity: switch.desk_amp_source_standby
+                icon: mdi:power-cycle
+                name: Standby
+                tap_action:
+                  action: toggle
+                type: custom:button-card
+              - aspect_ratio: 1.2/1
+                color: rgb(0,25,158)
+                color_type: card
+                entity: switch.desk_amp_source_bluetooth
+                icon: mdi:bluetooth-audio
+                name: Bluetooth
+                tap_action:
+                  action: toggle
+                type: custom:button-card
+              - aspect_ratio: 1.2/1
+                color: rgb(200,25,0)
+                color_type: card
+                entity: switch.desk_amp_source_usb
+                icon: mdi:usb-flash-drive
+                name: USB
+                tap_action:
+                  action: toggle
+                type: custom:button-card
+              - aspect_ratio: 1.2/1
+                color: rgb(0,200,100)
+                color_type: card
+                entity: switch.desk_amp_source_usbdac
+                icon: mdi:usb
+                name: USBDAC
+                tap_action:
+                  action: toggle
+                type: custom:button-card
+              - aspect_ratio: 1.2/1
+                color: rgb(190,250,255)
+                color_type: card
+                entity: switch.desk_amp_source_network
+                icon: mdi:wifi-star
+                name: Net/DLNA
+                tap_action:
+                  action: toggle
+                type: custom:button-card
+              - aspect_ratio: 1.2/1
+                color: rgb(0,255,0)
+                color_type: card
+                entity: switch.desk_amp_source_line_in
+                icon: mdi:audio-input-stereo-minijack
+                name: Line-In
+                tap_action:
+                  action: toggle
+                type: custom:button-card
+              - aspect_ratio: 1.2/1
+                color: rgb(158,0,158)
+                color_type: card
+                entity: switch.desk_amp_source_optical
+                icon: mdi:transit-connection-variant
+                name: Optical
+                tap_action:
+                  action: toggle
+                type: custom:button-card
+              - aspect_ratio: 1.2/1
+                color: rgb(150,25,25)
+                color_type: card
+                entity: switch.desk_amp_mute
+                icon: mdi:volume-high
+                name: Mute
+                tap_action:
+                  action: toggle
+                state:
+                  - color: rgb(255,0,0)
+                    icon: mdi:volume-off
+                    name: 'Mute: ON'
+                    styles:
+                      icon:
+                        - animation: blink 2s ease infinite
+                    value: 'on'
+                  - color: rgb(35,35,35)
+                    icon: mdi:volume-high
+                    name: 'Mute: Off'
+                    value: 'off'
+                type: custom:button-card
+          - text: Volume, Balance and Tone
+            type: custom:text-divider-row
+          - type: entities
+            entities:
+              - entity: input_number.desk_amp_volume
+                icon: mdi:knob
+          - type: entities
+            entities:
+              - entity: input_number.desk_amp_balance
+                icon: mdi:scale-balance
+          - type: entities
+            entities:
+              - entity: input_number.desk_amp_treble
+                icon: mdi:chart-bell-curve
+          - type: entities
+            entities:
+              - entity: input_number.desk_amp_midrange
+                icon: mdi:chart-bell-curve
+          - type: entities
+            entities:
+              - entity: input_number.desk_amp_bass
+                icon: mdi:chart-bell-curve
+          - square: false
+            columns: 4
+            type: grid
+            cards:
+              - aspect_ratio: 2/1
+                color: rgb(252,255,158)
+                color_type: card
+                entity: switch.desk_amp_pregain
+                icon: mdi:power-cycle
+                name: Pregain
+                tap_action:
+                  action: toggle
+                type: custom:button-card
+              - aspect_ratio: 2/1
+                color: rgb(252,255,158)
+                color_type: card
+                entity: switch.desk_amp_virtual_bass
+                icon: mdi:power-cycle
+                name: Virt. Bass
+                tap_action:
+                  action: toggle
+                type: custom:button-card
+      - type: vertical-stack
+        cards:
+          - text: Player Controls
+            type: custom:text-divider-row
+          - square: false
+            columns: 4
+            type: grid
+            cards:
+              - aspect_ratio: 1.2/1
+                icon: mdi:stop
+                name: Stop
+                show_entity_picture: true
+                show_name: true
+                tap_action:
+                  action: call-service
+                  service: script.desk_amp_stop_button
+                type: custom:button-card
+              - aspect_ratio: 1.2/1
+                icon: mdi:skip-previous
+                name: Previous
+                show_entity_picture: true
+                show_name: true
+                tap_action:
+                  action: call-service
+                  service: script.desk_amp_previous_button
+                type: custom:button-card
+              - aspect_ratio: 1.2/1
+                icon: mdi:pause
+                name: Play/Pause
+                show_entity_picture: true
+                show_name: true
+                tap_action:
+                  action: call-service
+                  service: script.desk_amp_pause_button
+                type: custom:button-card
+              - aspect_ratio: 1.2/1
+                icon: mdi:skip-next
+                name: Next
+                show_entity_picture: true
+                show_name: true
+                tap_action:
+                  action: call-service
+                  service: script.desk_amp_next_button
+                type: custom:button-card
+          - type: entities
+            entities:
+              - entity: sensor.desk_amp_title
+                icon: mdi:music
+              - entity: sensor.desk_amp_artist
+                icon: mdi:account
+              - entity: sensor.desk_amp_album
+                icon: mdi:record-circle
+          - text: Additional Controls
+            type: custom:text-divider-row
+          - square: false
+            columns: 5
+            type: grid
+            cards:
+              - aspect_ratio: 2/1.3
+                color: rgb(252,255,158)
+                color_type: card
+                entity: switch.desk_amp_led
+                icon: mdi:led-on
+                name: LED
+                tap_action:
+                  action: toggle
+                state:
+                  - icon: mdi:led-on
+                    value: 'on'
+                  - color: rgb(35,35,35)
+                    icon: mdi:led-off
+                    value: 'off'
+                type: custom:button-card
+              - aspect_ratio: 2/1.3
+                color: rgb(252,255,158)
+                color_type: card
+                entity: switch.desk_amp_key_beep
+                icon: mdi:volume-high
+                name: Key Beep
+                tap_action:
+                  action: toggle
+                state:
+                  - icon: mdi:volume-high
+                    value: 'on'
+                  - color: rgb(35,35,35)
+                    icon: mdi:volume-off
+                    value: 'off'
+                type: custom:button-card
+              - aspect_ratio: 2/1.3
+                color: rgb(252,255,158)
+                color_type: card
+                entity: switch.desk_amp_voice_prompts
+                icon: mdi:account-voice
+                name: Voice
+                tap_action:
+                  action: toggle
+                state:
+                  - icon: mdi:account-voice
+                    value: 'on'
+                  - color: rgb(35,35,35)
+                    icon: mdi:account-voice-off
+                    value: 'off'
+                type: custom:button-card
+              - aspect_ratio: 2/1.3
+                color: rgb(252,255,158)
+                color_type: card
+                entity: switch.desk_amp_ir_receiver
+                icon: mdi:remote
+                name: IR
+                tap_action:
+                  action: toggle
+                state:
+                  - icon: mdi:remote
+                    value: 'on'
+                  - color: rgb(35,35,35)
+                    icon: mdi:remote-off
+                    value: 'off'
+                type: custom:button-card
+              - aspect_ratio: 2/1.3
+                color: rgb(35,35,35)
+                color_type: card
+                icon: mdi:web
+                name: Web app
+                tap_action:
+                  action: navigate
+                  navigation_path: /lovelace-tablet/amp-np
+                type: custom:button-card
+          - type: entities
+            entities:
+              - entity: input_number.desk_amp_max_volume
+                name: Max Volume Limit
+                icon: mdi:volume-high
+              - entity: input_select.desk_amp_loopmode
+                name: Playback Loop Mode
+                icon: mdi:repeat
+              - entity: input_text.desk_amp_uart_command
+                name: Send Raw UART Command
+                icon: mdi:code-braces
+          - type: entities
+            entities:
+              - entity: sensor.desk_amp_last_uart
+                icon: mdi:code-braces
+                name: Last UART Command
+      - type: vertical-stack
+        cards:
+          - text: Additional Information
+            type: custom:text-divider-row
+          - type: entities
+            entities:
+              - entity: sensor.desk_amp_device_name
+                name: Device Name
+                icon: mdi:identifier
+              - entity: sensor.desk_amp_firmware
+                name: Firmware Version
+                icon: mdi:numeric-9-box-multiple
+              - entity: binary_sensor.desk_amp_internet
+                name: Internet
+                icon: mdi:web
+              - entity: binary_sensor.desk_amp_ethernet
+                name: Ethernet
+                icon: mdi:ethernet
+              - entity: binary_sensor.desk_amp_wifi
+                name: WiFi
+                icon: mdi:wifi
+              - entity: binary_sensor.desk_amp_bluetooth
+                name: Bluetooth
+                icon: mdi:bluetooth
+              - entity: binary_sensor.desk_amp_audio
+                name: Audio
+                icon: mdi:speaker
+              - entity: sensor.desk_amp_channel
+                name: Channel(s)
+                icon: mdi:speaker-multiple
+              - entity: sensor.desk_amp_multiroom_mode
+                name: Multi-room Mode
+                icon: mdi:floor-plan
+              - entity: binary_sensor.desk_amp_fixed_volume
+                name: Fixed Volume
+              - entity: sensor.desk_amp_last_ir_code
+                name: Last IR Code
+                icon: mdi:remote
