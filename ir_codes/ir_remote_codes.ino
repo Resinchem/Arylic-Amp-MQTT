@@ -1,3 +1,4 @@
+// Use this sketch to capture IR code from a remote
 #include <IRremote.h>
 
 const int RECV_PIN = 14;
