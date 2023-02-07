@@ -12,7 +12,7 @@ Even if using packages, it is highly likely that you will still need to edit the
 #### dashboard.yaml
 The file contains the YAML I used to create this dashboard:
 
-![HA_Dashboard_01](https://user-images.githubusercontent.com/55962781/216692697-9169711e-2550-4d4c-950d-c2796c9e8901.jpg)
+![HA_Dashboard_02](https://user-images.githubusercontent.com/55962781/217309510-49e82392-10da-49a4-83f4-4ee910d7d225.jpg)
 
 Again, it will likely need to be edited to match the entity names you used or created as part of the amp integration.  It is meant only as a guide for creating your own and not a copy/paste resource.  In this particular dashboard, a few custom add-ons are also used (these can be found in the Home Assistant Community Store (HACS):
 
