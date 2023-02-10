@@ -4,7 +4,7 @@ An ESP32-based project that adds MQTT control and more to the Arylic DIY Amp wit
 ![Finished_Build_Small](https://user-images.githubusercontent.com/55962781/216686591-e848d1ba-e7c6-480c-b4ff-9059607b4078.jpg)
 
 For build instructions, wiring diagrams, parts lists and more, please see the following:
-- YouTube Video:
+- YouTube Video: [Adding an ESP32, MQTT and more to the Arylic Amp](https://youtu.be/bE3YqMwv0SI)
 - Blog article: [Adding MQTT to the Arylic DIY Amp with an ESP32](https://resinchemtech.blogspot.com/2022/12/arylic-amp-mqtt.html)
 
 The Arylic DIY Up2Stream Amp has convenient interfaces that allow you to add controls such as a volume knob and push buttons for some features.  But many of its features and settings are normally only available via a mobile app (and resultant cloud account).  However, for those local-only minded folks, the amp also offers an HTTP API and  UART intefaces.  By adding an ESP32, this UART can be used to communicate MQTT topics to and from the amp to control nearly all the amp's features.  In addition, the ESP32 adds some addtional features that are either separate purchases or are simply not available otherwise.
