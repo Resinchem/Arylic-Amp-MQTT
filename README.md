@@ -20,7 +20,7 @@ The ESP32 and this project's code adds:
 
 ![HA_Dashboard_01](https://user-images.githubusercontent.com/55962781/216692697-9169711e-2550-4d4c-950d-c2796c9e8901.jpg)
 
-### Please see the wiki for important information on adapting and using this firmware for your own projects
+### Please see the [wiki](https://github.com/Resinchem/Arylic-Amp-MQTT/wiki) for important information on adapting and using this firmware for your own projects
 
 Because the board revisions and firmware versions for the Arylic amps can vary widely, and due to the lack of current 'official' documentation from Arylic on the UART command set, it is highly likely that you will need to adapt the code for your particular install, firmware version, etc.  During development, I found UART commands that were not documented at all... and others that appeared not to work any longer (or had been revised with no documentation).  For these reasons, you should be comfortable with modifying Arduino/C++ code and compiling and uploading that code to your own ESP32 to use this project.  Again, please refer to the wiki for more details.
 
