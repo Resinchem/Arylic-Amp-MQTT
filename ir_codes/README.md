@@ -12,4 +12,4 @@ In the Arduino IDE, select the board you are using and the COM port the board is
 
 ![Sample_IR_Output](https://user-images.githubusercontent.com/55962781/217077562-75a6d4ad-c865-452a-bede-da2fccb515b6.jpg)
 
-Once you've determined and recorded the codes for the buttons you want to use with the amp, see the wiki page Using a Custom IR Receiver and Remote for information on how to map these codes to the UART commands for the amp.
+Once you've determined and recorded the codes for the buttons you want to use with the amp, see the wiki page [Using a Custom IR Receiver and Remote](https://github.com/Resinchem/Arylic-Amp-MQTT/wiki/06-Using-a-Custom-IR-Receiver-and-Remote) for information on how to map these codes to the UART commands for the amp.
