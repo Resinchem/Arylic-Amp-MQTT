@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+  sxm:
+    image: angellusmortis/sxm-player:latest
+    restart: unless-stopped
+    container_name: sxm
+    environment:
+      - SXM_USERNAME=your_sirius_user_name
+      - SXM_PASSWORD=your_sirius_password
+    ports:
+      - 9000:9999

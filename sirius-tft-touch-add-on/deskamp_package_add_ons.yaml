@@ -1,0 +1,587 @@
+# =======================================
+#  These are the ADD-ONs to the existing 
+#  Home Assistant Desktop-Amp package
+#  See the Github /homeassistant folder for
+#  the rest of the package 
+#  (these add-ons will not work alone)
+# =======================================
+
+# =====================
+#  INPUT TEXT
+# =====================
+input_text:
+  sirius_now_playing:
+    name: Sirius Now Playing
+  sirius_manual_channel:
+    name: Sirius Manual Channel
+    initial: ' '
+
+# ====================
+# RESTFUL Commands
+# ===================
+rest_command:
+  play_sirius_station:
+    url: 'http://192.168.1.103/httpapi.asp?command=setPlayerCmd:play:http://192.168.1.102:9000/{{ station_id }}.m3u8'
+
+# ====================
+#  Automations
+# ====================
+automation:
+  # Standby (toggles TFT Display off/on)
+  - alias: Desk Amp Standy
+    trigger:
+      platform: state
+      entity_id: switch.desk_amp_source_standby
+      from: 'off'
+      to: 'on'
+    action:
+      service: light.turn_off
+      target:
+        entity_id: light.sirius_tft_backlight
+        
+  - alias: Desk Amp Reboot
+    trigger:
+      platform: state
+      entity_id: switch.desk_amp_source_standby
+      from: 'on'
+      to: 'off'
+    action:
+      service: light.turn_on
+      target:
+        entity_id: light.sirius_tft_backlight
+
+  - alias: Sirius Manual Channel
+    mode: single
+    max_exceeded: silent
+    trigger: 
+      platform: state
+      entity_id: input_text.sirius_manual_channel
+    action:
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "{{ states('input_text.sirius_manual_channel') }}"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "{{ states('input_text.sirius_manual_channel') }}"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_manual_channel
+        data:
+          value: ""
+
+  - alias: Sirius Clear Now Playing
+    trigger: 
+      platform: mqtt
+      topic: "stat/deskamp/source"
+    condition:
+      - condition: template
+        value_template: "{{ not (is_state('sensor.desk_amp_source', 'NET')) }}"
+    action:
+      - service: input_text.set_value
+        target: 
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: ''
+
+# =====================
+#  Scripts
+# =====================
+# -----------------------------------
+#  ILI9341 TFT Touch Scripts
+# ------------------------------------
+  sirius_power_up_amp:
+    alias: Sirius Power Up Amp
+    sequence:
+      - service: switch.turn_off  # Turn off the standby switch
+        target:
+          entity_id: switch.desk_amp_source_standby
+
+  sirius_power_down_amp:
+    alias: Sirius Power Down Amp
+    sequence:
+      - service: switch.turn_on  # Turn on the standby switch
+        target:
+          entity_id: switch.desk_amp_source_standby
+
+  sirius_reboot_amp:
+    alias: Sirius Reboot Amp
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "cmnd/deskamp/system"
+          payload: "REBOOT"
+
+  sirius_reboot_tft:
+    alias: Sirius Reboot TFT
+    sequence:
+      - service: button.press
+        target:
+          entity_id: button.sirius_tft_restart
+          
+# ---------------------------------------------
+#  Sirius XM Button Scripts - substitute your own favorite channels 
+# ---------------------------------------------
+  sirius_classicrewind:
+    alias: Sirius Classic Rewind
+    sequence:
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "classicrewind"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Classic Rewind"
+  sirius_redwhitebooze:
+    alias: Sirius Red White Booze
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "9178"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Red White and Booze"
+  sirius_classicrock:
+    alias: Sirius Classic Rock
+    sequence:
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "9375"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Classic Rock Party"
+  sirius_roadtrip:
+    alias: Sirius Road Trip
+    sequence:
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "9415"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Road Trip Radio"
+  sirius_50son5:
+    alias: Sirius 50s on 5
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "siriusgold"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "50's on 5"
+  sirius_60son6:
+    alias: Sirius 60s on 6
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "60svibrations"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "60's on 6"
+  sirius_70son7:
+    alias: Sirius 70s on 7
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "totally70s"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "70's on 7"
+  sirius_80son8:
+    alias: Sirius 80s on 8
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "big80s"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "80's on 8"
+  sirius_7080pop:
+    alias: Sirius 7080 Pop
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "9372"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "70's/80's Pop"
+  sirius_classicvinyl:
+    alias: Sirius Classic Vinyl
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "classicvinyl"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Classic Vinyl"
+  sirius_roaddog:
+    alias: Sirius Roaddog
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "roaddogtrucking"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Road Dog Trucking"
+  sirius_roadhouse:
+    alias: Sirius Roadhouse
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "theroadhouse"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Willie's Roadhouse"
+  sirius_boneyard:
+    alias: Sirius Boneyard
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "buzzsaw"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Ozzy's Boneyard"
+  sirius_hairnation:
+    alias: Sirius Hair Nation
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "hairnation"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Hair Nation"
+  sirius_oldiesparty:
+    alias: Sirius Oldies Party
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "9378"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Oldies Party"
+  sirius_margaritaville:
+    alias: Sirius Margaritaville
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "radiomargaritaville"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Radio Margaritaville"
+  sirius_womencountry:
+    alias: Sirius Women of Country
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "9421"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Women of Country"
+  sirius_outlaw:
+    alias: Sirius Outlaw Country
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "outlawcountry"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Outlaw Country"
+  sirius_primecountry:
+    alias: Sirius Prime Country
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "primecountry"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Prime Country"
+  sirius_highway:
+    alias: Sirius Highway
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "newcountry"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "The Highway"
+  sirius_elvis:
+    alias: Sirius Elvis
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "elvisradio"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Elvis Radio"
+  sirius_bluegrass:
+    alias: Sirius Bluegrass Junction
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "bluegrass"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Bluegrass Junction"
+  sirius_sinatra:
+    alias: Sirius Sinatra
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "siriuslysinatra"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Siriusly Sinatra"
+  sirius_studio54:
+    alias: Sirius Studio54
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "9145"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Studio 54"
+  sirius_foxsports:
+    alias: Sirius Fox Sports
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "9445"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "FOX Sports"
+  sirius_cbssports:
+    alias: Sirius CBS Sports
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "9473"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "CBS Sports Radio"
+  sirius_nbcsports:
+    alias: Sirius NBC Sports
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "9452"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "NBC Sports Radio"
+  sirius_espn:
+    alias: Sirius ESPN
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "espnradio"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "ESPN Radio"
+  sirius_colts:
+    alias: Sirius Colts
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "9159"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Indianapolis Colts Radio"
+  sirius_pacers:
+    alias: Sirius Pacers
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "9277"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Indiana Pacers Radio"
+  sirius_nflradio:
+    alias: Sirius NFL Radio
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "siriusnflradio"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Sirius NFL Radio"
+  sirius_maddog:
+    alias: Sirius Mad Dog Sports
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "8213"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Mad Dog Sports Radio"
+  sirius_foxnews:
+    alias: Sirius Fox News
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "9410"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "FOX News Headlines"
+  sirius_npr:
+    alias: Sirius NPR
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "nprnow"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "NPR Now"
+  sirius_howard100:
+    alias: Sirius Howard 100
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "howardstern100"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Howard Stern 100"
+  sirius_howard101:
+    alias: Sirius Howard 101
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "howardstern101"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Howard Stern 101"
+  sirius_laughusa:
+    alias: Sirius Laugh USA
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "laughbreak"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Laugh USA"
+  sirius_comedycentral:
+    alias: Sirius Comedy Centry
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "9356"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Comedy Central Radio"
+  sirius_rawdog:
+    alias: Sirius Rawdog
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "rawdog"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Raw Dog Comedy Hits"
+  sirius_comedyroundup:
+    alias: Sirius Comedy Roundup
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "blucollarcomedy"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Comedy Roundup"
+  sirius_comedygreats:
+    alias: Sirius Comedy Greats
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "9408"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "SiriusXM Comedy Greats"
+  sirius_lolradio:
+    alias: Sirius LOL Radio
+    sequence: 
+      - service: rest_command.play_sirius_station
+        data:
+          station_id: "9469"
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.sirius_now_playing
+        data:
+          value: "Laugh Out Loud Radio"

@@ -1,0 +1,396 @@
+  - theme: Backend-selected
+    title: Sirius XM Subview
+    path: sirius-xm-sub
+    subview: true
+    badges: []
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: entity
+            entity: input_text.sirius_now_playing
+            icon: mdi:radio
+            name: 'Now Playing:'
+          - text: Music / Favorites
+            text-divider-font-size: 18px
+            type: custom:text-divider-row
+          - square: false
+            columns: 4
+            type: grid
+            cards:
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Cls Rewind
+                entity_picture: /local/sirius/classicrewind.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_classicrewind
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Red Wht Booze
+                entity_picture: /local/sirius/redwhitebooze.jpg
+                show_entity_picture: true
+                styles:
+                  name:
+                    - font-size: 14px
+                    - color: white
+                tap_action:
+                  action: call-service
+                  service: script.sirius_redwhitebooze
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Classic Rock
+                entity_picture: /local/sirius/classicrock_2.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_classicrock
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Road Trip
+                entity_picture: /local/sirius/roadtripradio.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_roadtrip
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: 50's on 5
+                entity_picture: /local/sirius/50son5_2.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_50son5
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: 60's on 6
+                entity_picture: /local/sirius/60son6_2.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_60son6
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: 70's on 7
+                entity_picture: /local/sirius/70son7_2.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_70son7
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: 80's on 8
+                entity_picture: /local/sirius/80son8_2.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_80son8
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: 70s/80s Pop
+                entity_picture: /local/sirius/70s80spop.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_7080pop
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Clsc Vinyl
+                entity_picture: /local/sirius/classicvinyl.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_classicvinyl
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Road Dog
+                entity_picture: /local/sirius/roaddog.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_roaddog
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Roadhouse
+                entity_picture: /local/sirius/roadhouse.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_roadhouse
+          - text: Music / Other
+            text-divider-font-size: 18px
+            type: custom:text-divider-row
+          - square: false
+            columns: 4
+            type: grid
+            cards:
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Boneyard
+                entity_picture: /local/sirius/boneyard.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_boneyard
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Hair Nation
+                entity_picture: /local/sirius/hairnation.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_hairnation
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Oldies Party
+                entity_picture: /local/sirius/oldiesparty.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_oldiesparty
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Margaritaville
+                entity_picture: /local/sirius/magaritaville.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_margaritaville
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Girl Country
+                entity_picture: /local/sirius/womencountry.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_womencountry
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Outlaw
+                entity_picture: /local/sirius/outlaw.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_outlaw
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Prime
+                entity_picture: /local/sirius/primecountry.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_primecountry
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: The Highway
+                entity_picture: /local/sirius/highway.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_highway
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Elvis Radio
+                entity_picture: /local/sirius/elvis.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_elvis
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Bluegrass
+                entity_picture: /local/sirius/bluegrass.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_bluegrass
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Sinatra
+                entity_picture: /local/sirius/sinatra.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_sinatra
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Studio 54
+                entity_picture: /local/sirius/studio54.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_studio54
+      - type: vertical-stack
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: entities
+                entities:
+                  - entity: input_text.sirius_manual_channel
+                    name: Enter channel ID
+                    icon: mdi:pen
+              - type: entities
+                entities:
+                  - type: weblink
+                    name: Station List
+                    url: >-
+                      https://docs.google.com/spreadsheets/d/1ot4KJ2VTnL3_b886BGdVMJdIeldWMbFb7GKMO8rrOhs/edit?usp=sharing
+                    icon: mdi:list-box
+          - text: Sports / Talk
+            text-divider-font-size: 18px
+            type: custom:text-divider-row
+          - square: false
+            columns: 4
+            type: grid
+            cards:
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Fox Sports
+                entity_picture: /local/sirius/foxsports.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_foxsports
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: CBS Sports
+                entity_picture: /local/sirius/cbssports.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_cbssports
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: NBC Sports
+                entity_picture: /local/sirius/nbcsports.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_nbcsports
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: ESPN Radio
+                entity_picture: /local/sirius/espn.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_espn
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Colts Radio
+                entity_picture: /local/sirius/colts.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_colts
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Pacers Radio
+                entity_picture: /local/sirius/pacers.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_pacers
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: NFL Radio
+                entity_picture: /local/sirius/nflradio.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_nflradio
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Mad Dog
+                entity_picture: /local/sirius/maddog.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_maddog
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Fox News
+                entity_picture: /local/sirius/foxnews.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_foxnews
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: NPR Now
+                entity_picture: /local/sirius/npr.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_npr
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Howard 100
+                entity_picture: /local/sirius/howard100.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_howard100
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Howard 101
+                entity_picture: /local/sirius/howard101.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_howard101
+          - text: Comedy / Misc
+            text-divider-font-size: 18px
+            type: custom:text-divider-row
+          - square: false
+            columns: 4
+            type: grid
+            cards:
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Laugh USA
+                entity_picture: /local/sirius/laughusa.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_laughusa
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Comedy Cntl
+                entity_picture: /local/sirius/comedycentral.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_comedycentral
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Raw Dog
+                entity_picture: /local/sirius/rawdog.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_rawdog
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Roundup
+                entity_picture: /local/sirius/comedyroundup.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_espn
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: Com. Greats
+                entity_picture: /local/sirius/comedygreats.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_comedygreats
+              - type: custom:button-card
+                aspect_ratio: 2/1.5
+                name: LOL Radio
+                entity_picture: /local/sirius/lolradio.jpg
+                show_entity_picture: true
+                tap_action:
+                  action: call-service
+                  service: script.sirius_lolradio

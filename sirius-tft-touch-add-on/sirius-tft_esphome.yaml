@@ -1,0 +1,201 @@
+esphome:
+  name: sirius-tft
+  includes:
+    - sirius-tft-monitor.h
+  libraries:
+    - esphome-display-panel=https://github.com/kdorff/esphome-display-panel.git#v0.0.13
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: !secret api_key
+  id: api_server
+
+ota:
+  password: !secret ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  fast_connect: true
+  
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Siriux tft Fallback Hotspot"
+    password: !secret ap_password
+
+# captive_portal:
+
+color:
+  - id: color_red
+    red: 100%
+    green: 0%
+    blue: 0%
+  - id: color_green
+    red: 0%
+    green: 100%
+    blue: 0%
+  - id: color_blue
+    red: 0%
+    green: 0%
+    blue: 100%
+  - id: color_yellow
+    red: 100%
+    green: 100%
+    blue: 0%
+  - id: color_orange
+    red: 100%
+    green: 65%
+    blue: 0%
+  - id: color_white
+    red: 100%
+    green: 100%
+    blue: 100%
+  - id: color_magenta
+    red: 100%
+    green: 0%
+    blue: 100%
+  - id: color_cyan
+    red: 0%
+    green: 100%
+    blue: 100%
+
+font:
+  - file: 'fonts/materialdesignicons-webfont.ttf'
+    id: icon_font_45
+    size: 45
+    ## Method for using glyphs in YAML and C++ based on neil123's comments in
+    ## https://tinyurl.com/esphome-font-glyphs
+    ##
+    ## Process:
+    ## * Install the font materialdesignicons-webfont.ttf both locally
+    ##   and in the the esphome/fonts folder.
+    ## * Using Character Map UWP (available in the Microsoft Store), 
+    ##   * Select the font materialdesignicons-webfont.ttf
+    ##   * Find the symbol you want to use (you can search)
+    ##   * Note it's name and code code (such as 'U+F0020' for 'alarm').
+    glyphs:
+      - "\U000F02DC" # 'home' 
+      - "\U000F0062" # 'up arrow drop circle' 
+      - "\U000F004A" # 'down arrow drop circle' 
+    
+  - file: "gfonts://Rubik@600"
+    id: font_flash
+    size: 30
+  - file: "gfonts://Rubik@500"
+    id: font_button_label
+    size: 22
+
+spi:
+  clk_pin: 18
+  mosi_pin: 23
+  miso_pin: 19
+
+
+globals:
+  - id: brightness
+    type: float
+    restore_value: yes
+    initial_value: "1.0"
+
+display:
+  - platform: ili9xxx
+    model: TFT 2.4
+    cs_pin: 33
+    dc_pin: 5
+    reset_pin: 16
+    rotation: 270
+    ## The panels will redraw themselves completely.
+    auto_clear_enabled: True
+    update_interval: 0.1s
+    lambda: |-
+      static bool panelsInitialized = 0;
+      if (!panelsInitialized) {
+        initializePanels(it);
+        panelsInitialized = true;
+      }
+
+      updatePanelStates();
+      drawPanels();
+      
+# Define a PWM output on the ESP32
+output:
+  - platform: ledc
+    pin: 17
+    id: backlight
+
+light:
+  - platform: monochromatic
+    output: backlight
+    name: "Sirius TFT Backlight"
+    id: tft_backlight
+    restore_mode: ALWAYS_ON
+
+touchscreen:
+  platform: xpt2046
+  id: touch
+  cs_pin: 32
+  interrupt_pin: 21
+  swap_x_y: false
+  ##
+  ## From running calibration (code is commented out, below)
+  ## for rotation: 0 these were good
+  ## minx=426, maxx=3771, miny=471, maxy=3845
+  calibration_x_min: 426
+  calibration_x_max: 3771
+  calibration_y_min: 3845
+  calibration_y_max: 471
+  ## Help eliminate phantom presses
+  threshold: 400
+  update_interval: 50ms
+  report_interval: 200ms
+  on_touch:
+    then:
+      - if:
+          condition:
+            lambda: |-
+              return isPanelTouched((id(touch)).x, (id(touch)).y);
+          then:
+            - lambda: |-
+                ESP_LOGD("yaml", "touched name=%s", (lastTouchedPanel->name.c_str()));
+                // If backlight is ON (amp is powered up)
+                if (id(tft_backlight).current_values.is_on()) {
+                  if ((lastTouchedPanel != &panelUp) && (lastTouchedPanel != &panelDown) && (lastTouchedPanel != &panelHome)) {
+                    enableFlash({"Launching:", (lastTouchedPanel->name.c_str()) });
+                    HomeassistantServiceResponse resp;
+                    resp.service = "script.turn_on";
+                    HomeassistantServiceMap entity_id_kv;
+                    entity_id_kv.key = "entity_id";
+                    entity_id_kv.value = lastTouchedPanel->tag.c_str();  //"script.sirius_classicrewind"; 
+                    resp.data.push_back(entity_id_kv);
+                    id(api_server).send_homeassistant_service_call(resp);
+                    
+                  } else if (lastTouchedPanel == &panelDown) {
+                      if (pageNumber < maxPageNumber) pageNumber++;
+                  } else if (lastTouchedPanel == &panelUp) {
+                      if (pageNumber > 0) pageNumber--;
+                  } else if (lastTouchedPanel == &panelHome) {
+                      pageNumber = 0;
+                  }
+                // Backlight is off (amp is in standby - wake amp - which will turn on backlight)
+                } else {
+                  HomeassistantServiceResponse resp;
+                  resp.service = "script.turn_on";
+                  HomeassistantServiceMap entity_id_kv;
+                  entity_id_kv.key = "entity_id";
+                  entity_id_kv.value = "script.sirius_power_up_amp"; 
+                  resp.data.push_back(entity_id_kv);
+                  id(api_server).send_homeassistant_service_call(resp);
+                }
+
+
+
