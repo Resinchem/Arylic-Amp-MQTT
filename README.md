@@ -25,3 +25,15 @@ The ESP32 and this project's code adds:
 Because the board revisions and firmware versions for the Arylic amps can vary widely, and due to the lack of current 'official' documentation from Arylic on the UART command set, it is highly likely that you will need to adapt the code for your particular install, firmware version, etc.  During development, I found UART commands that were not documented at all... and others that appeared not to work any longer (or had been revised with no documentation).  For these reasons, you should be comfortable with modifying Arduino/C++ code and compiling and uploading that code to your own ESP32 to use this project.  Again, please refer to the wiki for more details.
 
 For the above reasons (and other project prioirities), this code is being provided **as-is** to serve as a framework for your own project and build.  I will happily answer questions, but likely will not make any 'fixes', 'upgrades' or 'feature additions' as the current firmware works ideally for my particular amp build and firmware version.
+
+## Additional Optional Updates
+
+![ReadMe_Sirius_Thumb_Small](https://user-images.githubusercontent.com/55962781/232343345-83bbd0ef-2f0c-4257-8b67-6a444a9ae559.jpg)
+
+A later video and blog article adds a **local** SiriusXM streaming server and an external touch panel for selecting favorite channels (plus a few additional amp controls).
+
+Please the wiki and the following sources for more information on these add-ons:
+
+- YouTube Overview: [Local SiriusXM Server and Touch Controls for the DIY Amp](https://youtu.be/VQ3LSnCgpeE)
+- Step-by-step Blog Article: [Adding Local SiriuxSM and Touch to the DIY Amp](https://resinchemtech.blogspot.com/2023/04/amp-siriusxm.html)
+
