@@ -169,7 +169,13 @@ touchscreen:
                 ESP_LOGD("yaml", "touched name=%s", (lastTouchedPanel->name.c_str()));
                 // If backlight is ON (amp is powered up)
                 if (id(tft_backlight).current_values.is_on()) {
-                  if ((lastTouchedPanel != &panelUp) && (lastTouchedPanel != &panelDown) && (lastTouchedPanel != &panelHome)) {
+                  if (lastTouchedPanel == &panelDown) {
+                      if (pageNumber < maxPageNumber) pageNumber++;
+                  } else if (lastTouchedPanel == &panelUp) {
+                      if (pageNumber > 0) pageNumber--;
+                  } else if (lastTouchedPanel == &panelHome) {
+                      pageNumber = 0;
+                  } else {
                     enableFlash({"Launching:", (lastTouchedPanel->name.c_str()) });
                     HomeassistantServiceResponse resp;
                     resp.service = "script.turn_on";
@@ -178,13 +184,6 @@ touchscreen:
                     entity_id_kv.value = lastTouchedPanel->tag.c_str();  //"script.sirius_classicrewind"; 
                     resp.data.push_back(entity_id_kv);
                     id(api_server).send_homeassistant_service_call(resp);
-                    
-                  } else if (lastTouchedPanel == &panelDown) {
-                      if (pageNumber < maxPageNumber) pageNumber++;
-                  } else if (lastTouchedPanel == &panelUp) {
-                      if (pageNumber > 0) pageNumber--;
-                  } else if (lastTouchedPanel == &panelHome) {
-                      pageNumber = 0;
                   }
                 // Backlight is off (amp is in standby - wake amp - which will turn on backlight)
                 } else {
