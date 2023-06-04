@@ -197,5 +197,24 @@ touchscreen:
                   id(api_server).send_homeassistant_service_call(resp);
                 }
 
+time:
+  - platform: homeassistant
+    id: esptime
+    on_time_sync:
+      then:
+        - lambda: !lambda |-
+            static boolean bootTimeSet = false;
+            if (!bootTimeSet) {
+              auto now = id(esptime).now();
+              char buffer[20];
+              now.strftime(buffer, sizeof(buffer), "%Y-%m-%dT%H:%M:%S");
+              id(sirius_tft_boot_time).publish_state(buffer);
+              bootTimeSet = true;
+            }
 
+text_sensor:
+  - platform: template
+    name: "Sirius tft Last Boot"
+    id: sirius_tft_boot_time
+    icon: mdi:clock-start
 
