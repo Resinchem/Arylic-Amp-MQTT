@@ -37,3 +37,6 @@ Please the wiki and the following sources for more information on these add-ons:
 - YouTube Overview: [Local SiriusXM Server and Touch Controls for the DIY Amp](https://youtu.be/VQ3LSnCgpeE)
 - Step-by-step Blog Article: [Adding Local SiriuxSM and Touch to the DIY Amp](https://resinchemtech.blogspot.com/2023/04/amp-siriusxm.html)
 
+It takes substantial time, effort and cost to develop and maintain this repository. If you find it helpful and would like to say 'thanks', please consider supporting this project and future development:
+
+<a href="https://www.buymeacoffee.com/resinchemtech" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
